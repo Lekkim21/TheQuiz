@@ -1,0 +1,74 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>League Quiz</title>
+</head>
+<body>
+  <h1>League Quiz</h1>
+  
+  <form id="quizForm">
+    <p>1. Who has feet 🤤🤤:</p>
+    <input type="radio" name="q1" value="Janna"> Janna <br>
+    <input type="radio" name="q1" value="Briar"> Briar <br>
+    <input type="radio" name="q1" value="Lux"> Lux <br><br>
+
+    <p>2. Hvornår spawner atakhan</p>
+    <input type="radio" name="q2" value="15 min"> 15 min <br>
+    <input type="radio" name="q2" value="20 min"> 20 min <br>
+    <input type="radio" name="q2" value="25 min"> 25 min <br><br>
+
+    <p>3. Hvornår spawner cannon hver wave</p>
+    <input type="radio" name="q3" value="15 min"> 15 min <br>
+    <input type="radio" name="q3" value="20 min"> 20 min <br>
+    <input type="radio" name="q3" value="25 min"> 25 min <br><br>
+
+    <p>4. Hvem fik sit sidste skin over 4 år siden</p>
+    <input type="radio" name="q4" value="Skarner"> Skarner <br>
+    <input type="radio" name="q4" value="Xin Zhao"> Xin Zhao <br>
+    <input type="radio" name="q4" value="Quinn"> Quinn <br><br>
+
+    <p>5. Hvem er ikke del af de originale 40 champions</p>
+    <input type="radio" name="q5" value="Kayle"> Kayle <br>
+    <input type="radio" name="q5" value="Taric"> Taric <br>
+    <input type="radio" name="q5" value="Veigar"> Veigar <br>
+    <input type="radio" name="q5" value="Poppy"> Poppy <br><br>
+    
+    <p>6. Hvem af disse champions kan ikke lide kvinder</p>
+    <input type="radio" name="q6" value="Diana"> Diana <br>
+    <input type="radio" name="q6" value="Nidalee"> Nidalee <br>
+    <input type="radio" name="q6" value="Nami"> Nami <br>
+    <input type="radio" name="q6" value="Renata Glasc"> Renata Glasc <br><br>
+    <button type="submit">Submit</button>
+
+  </form>
+
+  <p id="result"></p>
+
+  <script>
+    let correctAnswers = {};
+
+    // Indlæs JSON med de rigtige svar
+    fetch("quiz.json")
+      .then(res => res.json())
+      .then(data => {
+        correctAnswers = data.answers;
+      });
+
+    document.getElementById("quizForm").addEventListener("submit", function(ev) {
+      ev.preventDefault();
+      let score = 0;
+      let total = Object.keys(correctAnswers).length;
+
+      for (let q in correctAnswers) {
+        const selected = document.querySelector(`input[name="${q}"]:checked`);
+        if (selected && selected.value === correctAnswers[q]) {
+          score++;
+        }
+      }
+
+      document.getElementById("result").textContent =
+        `You got ${score} out of ${total} correct.`;
+    });
+  </script>
+</body>
+</html>
